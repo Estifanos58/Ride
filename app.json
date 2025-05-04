@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Uber",
-    "slug": "Uber",
+    "name": "uber_new",
+    "slug": "uber_new",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "uber",
+    "scheme": "ubernew",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

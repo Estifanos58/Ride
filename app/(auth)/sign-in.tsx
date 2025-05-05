@@ -3,8 +3,9 @@ import { icons, images } from "@/constants";
 import { useState } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 import CustomButton from "@/components/CustomButton";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import OAuth from "@/components/OAuth";
+import { useSignIn } from '@clerk/clerk-expo'
 
 const SignIn = () => {
   const [form, setForm] = useState({
@@ -12,11 +13,38 @@ const SignIn = () => {
     email: "",
     password: "",
   });
+  const { signIn, setActive, isLoaded } = useSignIn()
+  const router = useRouter()
 
-  const onSigninPress = async() => {
-    // console.log("Sign Up Pressed", form);
+  // Handle the submission of the sign-in form
+  const onSignInPress = async () => {
+    if (!isLoaded) return
 
-  };
+    // Start the sign-in process using the email and password provided
+    try {
+      const signInAttempt = await signIn.create({
+        identifier: form.email,
+        password: form.password,
+      })
+
+      // If sign-in process is complete, set the created session as active
+      // and redirect the user
+      if (signInAttempt.status === 'complete') {
+        await setActive({ session: signInAttempt.createdSessionId })
+        router.replace('/')
+      } else {
+        // If the status isn't complete, check why. User might need to
+        // complete further steps.
+        console.error(JSON.stringify(signInAttempt, null, 2))
+      }
+    } catch (err) {
+      // See https://clerk.com/docs/custom-flows/error-handling
+      // for more info on error handling
+      console.error(JSON.stringify(err, null, 2))
+    }
+  }
+
+
   return (
     <ScrollView className="flex-1 bg-white">
       <View className="flex-1 bg-white">
@@ -43,7 +71,7 @@ const SignIn = () => {
             secureTextEntry={true}
             onChangeText={(value) => setForm({ ...form, password: value })}
           />
-          <CustomButton title="Sign In" onPress={onSigninPress} className="mt-6"/>
+          <CustomButton title="Sign In" onPress={onSignInPress} className="mt-6"/>
 
           {/* OAuth */}
           <OAuth/>

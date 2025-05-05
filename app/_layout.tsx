@@ -1,6 +1,8 @@
 import { SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import { ClerkLoaded, ClerkProvider } from '@clerk/clerk-expo'
+import { tokenCache } from '@clerk/clerk-expo/token-cache'
 import './globals.css'
 export default function RootLayout() {
 
@@ -14,6 +16,14 @@ export default function RootLayout() {
     "Jakarta-SemiBold": require("../assets/fonts/PlusJakartaSans-SemiBold.ttf"),
 });
 
+const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY
+
+if(!publishableKey) {
+  throw new Error(
+    'Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env' 
+  )
+}
+
 useEffect(() => {
   if (loaded) {
     SplashScreen.hideAsync();
@@ -25,15 +35,19 @@ if (!loaded) {
 }
 
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false, // This will hide headers for all screens in the stack
-      }}
-    >
-        <Stack.Screen name="index" options={{headerShown: false}}/>
-        <Stack.Screen name="(root)" options={{headerShown: false}}/>
-        <Stack.Screen name="(auth)" options={{headerShown: false}}/>
-        <Stack.Screen name="+not-found"/>
-    </Stack>
+    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+      <ClerkLoaded>
+        <Stack
+          screenOptions={{
+            headerShown: false, // This will hide headers for all screens in the stack
+          }}
+        >
+            <Stack.Screen name="index" options={{headerShown: false}}/>
+            <Stack.Screen name="(root)" options={{headerShown: false}}/>
+            <Stack.Screen name="(auth)" options={{headerShown: false}}/>
+            <Stack.Screen name="+not-found"/>
+        </Stack>
+      </ClerkLoaded>
+    </ClerkProvider>
   );
 } 

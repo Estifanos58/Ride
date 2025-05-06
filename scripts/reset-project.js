@@ -57,7 +57,7 @@ const moveDirectories = async (userInput) => {
     for (const dir of oldDirs) {
       const oldDirPath = path.join(root, dir);
       if (fs.existsSync(oldDirPath)) {
-        if (userInput === "y") {
+        if (userInput === "y") { 
           const newDirPath = path.join(root, exampleDir, dir);
           await fs.promises.rename(oldDirPath, newDirPath);
           console.log(`➡️ /${dir} moved to /${exampleDir}/${dir}.`);

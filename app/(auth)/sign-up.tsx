@@ -12,6 +12,7 @@ import { fetchAPI } from "@/lib/fetch";
 const SignUp = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -27,7 +28,7 @@ const SignUp = () => {
     if (!isLoaded) return;
 
     // console.log(emailAddress, password)
-
+    setIsLoading(true);
     // Start sign-up process using email and password provided
     try {
       await signUp.create({
@@ -47,6 +48,8 @@ const SignUp = () => {
       // for more info on error handling
       Alert.alert("Error", err.errors[0].longMessage);
       console.error(JSON.stringify(err, null, 2));
+    }finally{
+      setIsLoading(false);
     }
   };
 
@@ -55,6 +58,7 @@ const SignUp = () => {
 
     try {
       // Use the code the user provided to attempt verification
+
       const signUpAttempt = await signUp.attemptEmailAddressVerification({
         code: verification.code,
       });
@@ -144,7 +148,7 @@ const SignUp = () => {
             onChangeText={(value) => setForm({ ...form, password: value })}
           />
           <CustomButton
-            title="Sign Up"
+            title={isLoading ? "Loading..." : "Sign Up"}
             onPress={onSignUpPress}
             className="mt-6"
           />

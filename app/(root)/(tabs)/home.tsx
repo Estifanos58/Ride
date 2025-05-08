@@ -108,6 +108,7 @@ const recentRides = [
 
 export default function Page() {
   const { user } = useUser()
+  
   const loading =  true;
 
   const hadndleSignOut = async ( ) => {

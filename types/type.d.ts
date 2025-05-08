@@ -1,7 +1,7 @@
 import { TextInputProps, TouchableOpacityProps } from "react-native";
 
 declare interface Driver {
-  id: number;
+  id: any
   first_name: string;
   last_name: string;
   profile_image_url: string;

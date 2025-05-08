@@ -9,11 +9,12 @@ const Map = () => {
   }
 
   return (
-     <MapView
+    <View className="rounded-2xl">
+      <MapView
         provider={PROVIDER_DEFAULT}
         className="w-[500px] h-full rounded-2xl"
         tintColor="black"
-        style={{width: 380 , height: 300 , borderRadius: 20}}
+        style={{width: 380 , height: 300 , borderRadius: 60}}
         mapType={Platform.OS === "ios" ? "mutedStandard" : "standard"}
         showsPointsOfInterest={false}
         showsUserLocation={true}
@@ -27,6 +28,8 @@ const Map = () => {
       >
       <Text className="">Map</Text>
       </MapView>
+    </View>
+    
   );
 };
 

@@ -9,7 +9,7 @@ import CustomButton from "@/components/CustomButton";
 import { images } from "@/constants";
 import { fetchAPI } from "@/lib/fetch";
 import { useLocationStore } from "@/store";
-import { PaymentProps } from "@/types/type";
+import { PaymentProps } from "@/types/type"; 
 
 const Payment = ({
   fullName,
@@ -114,7 +114,7 @@ const Payment = ({
           }
         },
       },
-      returnURL: "myapp://book-ride",
+      returnURL: "ride://book-ride",
     });
 
     if (!error) {

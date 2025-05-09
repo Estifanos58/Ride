@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "uber_new",
-    "slug": "uber_new",
+    "name": "ride",
+    "slug": "ride",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "ubernew",
+    "scheme": "ride",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
